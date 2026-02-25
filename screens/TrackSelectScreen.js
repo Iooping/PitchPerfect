@@ -96,17 +96,25 @@ export default function TrackSelectScreen({ navigation }) {
       <View style={styles.bottomNav}>
         
         {/* Home (Active) */}
-        <View style={styles.navItem}>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          style={styles.navItem}
+          onPress={() => navigation.replace('TrackSelect')}
+        >
           <View style={styles.navIconActive}>
             <Svg width="14" height="14" viewBox="0 0 24 24" fill="#7C5CFF">
               <Path d="M3 9.5L12 2L21 9.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1V9.5z" />
             </Svg>
           </View>
           <Text style={styles.navTextActive}>Home</Text>
-        </View>
+        </TouchableOpacity>
 
         {/* History */}
-        <View style={styles.navItem}>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          style={styles.navItem}
+          onPress={() => navigation.replace('History')}
+        >
           <View style={styles.navIcon}>
             <Svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3A3A5E" strokeWidth="2" strokeLinecap="round">
               <Path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2z" />
@@ -114,10 +122,14 @@ export default function TrackSelectScreen({ navigation }) {
             </Svg>
           </View>
           <Text style={styles.navText}>History</Text>
-        </View>
+        </TouchableOpacity>
 
         {/* Profile */}
-        <View style={styles.navItem}>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          style={styles.navItem}
+          onPress={() => navigation.replace('Profile')}
+        >
           <View style={styles.navIcon}>
             <Svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3A3A5E" strokeWidth="2" strokeLinecap="round">
               <Circle cx="12" cy="8" r="4" />
@@ -125,7 +137,7 @@ export default function TrackSelectScreen({ navigation }) {
             </Svg>
           </View>
           <Text style={styles.navText}>Profile</Text>
-        </View>
+        </TouchableOpacity>
 
       </View>
     </View>
