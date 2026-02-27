@@ -67,9 +67,16 @@ export default function ProcessingScreen({ route, navigation }) {
         clearInterval(progressInterval);
         setProgress(100);
 
-        // Wait a split second so the user sees "100%", then pass the dynamic score!
+        // Wait a split second so the user sees "100%", then pass the dynamic score
+        // and the detailed judge-style breakdown from the backend.
         setTimeout(() => {
-          navigation.replace('Score', { score: data.score });
+          navigation.replace('Score', {
+            score: data.score,
+            pitch_score: data.pitch_score,
+            rhythm_score: data.rhythm_score,
+            tone_score: data.tone_score,
+            feedback: data.feedback,
+          });
         }, 600);
 
       } catch (error) {

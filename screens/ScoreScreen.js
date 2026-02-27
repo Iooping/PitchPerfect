@@ -74,8 +74,33 @@ const PitchChart = () => {
 };
 
 export default function ScoreScreen({ route, navigation }) {
-  // Grab the real score from Python (or default to 85 if we are just testing UI)
+  // Grab the real score + breakdown from Python (or sensible defaults when testing UI)
   const finalScore = route.params?.score ?? 85;
+  const pitchScore = route.params?.pitch_score ?? 88;
+  const rhythmScore = route.params?.rhythm_score ?? 82;
+  const toneScore = route.params?.tone_score ?? 79;
+  const feedbackItems = route.params?.feedback ?? [
+    "Solid rhythm on the chorus — great tempo control.",
+    "Pitch drifted flat in places; focus on locking center on sustained notes.",
+    "Support from the diaphragm on long notes to keep tone steady.",
+  ];
+
+  // Competition-style messaging based on score tier
+  let subtitle = "Great Pitch! 🎉";
+  let description = "Top 18% of singers this week";
+  if (finalScore >= 90) {
+    subtitle = "Show‑stopping performance! 🎤";
+    description = "Judge says: finalist‑level control and tone.";
+  } else if (finalScore >= 80) {
+    subtitle = "Great Pitch! 🎉";
+    description = "You’d easily pass a first‑round audition.";
+  } else if (finalScore >= 65) {
+    subtitle = "Promising audition.";
+    description = "Strong moments — polish pitch and timing for the next round.";
+  } else {
+    subtitle = "Keep training your voice.";
+    description = "The judge hears potential; more practice will pay off.";
+  }
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 40 }}>
@@ -94,8 +119,8 @@ export default function ScoreScreen({ route, navigation }) {
           <Text style={styles.scoreMax}>/100</Text>
         </View>
 
-        <Text style={styles.heroSubtitle}>Great Pitch! 🎉</Text>
-        <Text style={styles.heroDesc}>Top 18% of singers this week</Text>
+        <Text style={styles.heroSubtitle}>{subtitle}</Text>
+        <Text style={styles.heroDesc}>{description}</Text>
       </LinearGradient>
 
       <View style={styles.contentPadding}>
@@ -108,34 +133,41 @@ export default function ScoreScreen({ route, navigation }) {
         {/* Score Breakdown Grid */}
         <View style={styles.statsGrid}>
           <View style={styles.statBox}>
-            <Text style={[styles.statValue, { color: '#4ADE80' }]}>88</Text>
+            <Text style={[styles.statValue, { color: '#4ADE80' }]}>{pitchScore}</Text>
             <Text style={styles.statLabel}>Pitch</Text>
           </View>
           <View style={[styles.statBox, { marginHorizontal: 8 }]}>
-            <Text style={[styles.statValue, { color: '#7C5CFF' }]}>82</Text>
+            <Text style={[styles.statValue, { color: '#7C5CFF' }]}>{rhythmScore}</Text>
             <Text style={styles.statLabel}>Rhythm</Text>
           </View>
           <View style={styles.statBox}>
-            <Text style={[styles.statValue, { color: '#FB923C' }]}>79</Text>
+            <Text style={[styles.statValue, { color: '#FB923C' }]}>{toneScore}</Text>
             <Text style={styles.statLabel}>Tone</Text>
           </View>
         </View>
 
         {/* AI Feedback Card */}
         <View style={styles.feedbackCard}>
-          <Text style={styles.cardHeader}>AI FEEDBACK</Text>
-          <View style={styles.feedbackRow}>
-            <Text style={styles.feedbackIcon}>✅</Text>
-            <Text style={styles.feedbackText}>Solid rhythm on the chorus — great tempo control.</Text>
-          </View>
-          <View style={styles.feedbackRow}>
-            <Text style={styles.feedbackIcon}>⚠️</Text>
-            <Text style={styles.feedbackText}>Pitch drifted flat in the second verse.</Text>
-          </View>
-          <View style={[styles.feedbackRow, { borderBottomWidth: 0, paddingBottom: 0, marginBottom: 0 }]}>
-            <Text style={styles.feedbackIcon}>💡</Text>
-            <Text style={styles.feedbackText}>Support from the diaphragm on long notes.</Text>
-          </View>
+          <Text style={styles.cardHeader}>JUDGES' NOTES</Text>
+          {feedbackItems.map((line, index) => {
+            let icon = "💡";
+            if (index === 0) icon = "✅";
+            else if (index === 1) icon = "⚠️";
+
+            const isLast = index === feedbackItems.length - 1;
+            return (
+              <View
+                key={`${index}-${line}`}
+                style={[
+                  styles.feedbackRow,
+                  isLast && { borderBottomWidth: 0, paddingBottom: 0, marginBottom: 0 },
+                ]}
+              >
+                <Text style={styles.feedbackIcon}>{icon}</Text>
+                <Text style={styles.feedbackText}>{line}</Text>
+              </View>
+            );
+          })}
         </View>
 
         {/* CTAs */}
