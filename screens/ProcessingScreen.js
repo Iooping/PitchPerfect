@@ -2,6 +2,10 @@ import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, Animated, Easing } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
+// TODO: Put your actual backend URL here (FastAPI/Flask server)
+// Example when running on your laptop: "http://192.168.1.23:8000/analyze"
+const ANALYZE_API_URL = 'http://192.168.1.XXX:8000/analyze';
+
 const processingMessages = [
   "Analyzing pitch stability...",
   "Detecting key & scale...",
@@ -53,8 +57,7 @@ export default function ProcessingScreen({ route, navigation }) {
         }, 500);
 
         // SEND TO PYTHON API
-        // *** IMPORTANT: CHANGE '192.168.1.XXX' TO YOUR ACTUAL COMPUTER'S IPV4 ADDRESS ***
-        const response = await fetch('http://192.168.1.XXX:5000/analyze', {
+        const response = await fetch(ANALYZE_API_URL, {
           method: 'POST',
           body: formData,
           headers: { 'Content-Type': 'multipart/form-data' },
