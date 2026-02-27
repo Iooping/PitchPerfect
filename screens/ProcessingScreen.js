@@ -2,9 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, Animated, Easing } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
-// TODO: Put your actual backend URL here (FastAPI/Flask server)
-// Example when running on your laptop: "http://192.168.1.23:8000/analyze"
-const ANALYZE_API_URL = 'http://192.168.1.XXX:8000/analyze';
+// Backend URL for your local AI scoring server
+const ANALYZE_API_URL = 'http://192.168.68.117:8000/analyze';
 
 const processingMessages = [
   "Analyzing pitch stability...",
