@@ -59,10 +59,19 @@ export default function ProcessingScreen({ route, navigation }) {
         const response = await fetch(ANALYZE_API_URL, {
           method: 'POST',
           body: formData,
-          headers: { 'Content-Type': 'multipart/form-data' },
         });
 
-        const data = await response.json();
+        const rawText = await response.text();
+        let data;
+        try {
+          data = JSON.parse(rawText);
+        } catch (e) {
+          throw new Error(`Non-JSON response (${response.status}): ${rawText.slice(0, 200)}`);
+        }
+
+        if (!response.ok) {
+          throw new Error(data?.detail ? String(data.detail) : `HTTP ${response.status}`);
+        }
         clearInterval(progressInterval);
         setProgress(100);
 
